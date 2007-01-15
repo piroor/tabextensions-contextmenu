@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+
+<RDF:RDF xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+		xmlns:chrome="http://www.mozilla.org/rdf/chrome#">
+
+	<!-- list all the packages being supplied by this jar -->
+	<RDF:Seq about="urn:mozilla:package:root">
+		<RDF:li resource="urn:mozilla:package:tabextensions_contextmenu"/>
+	</RDF:Seq>
+
+	<!-- package information -->
+	<RDF:Description about="urn:mozilla:package:tabextensions_contextmenu"
+		chrome:name="tabextensions_contextmenu"
+		chrome:displayName="Tabbrowser Extensions:ContextMenu Rearrangement Module"
+		chrome:author="SHIMODA Hiroshi"
+		chrome:authorURL="http://piro.sakura.ne.jp/"
+		chrome:extension="true"
+		chrome:description="Changes order of the context menu of tabs. This extension requires the &quot;Tabbrowser Extensions.&quot;"/>
+
+
+	<!-- overlay information -->
+	<RDF:Seq about="urn:mozilla:overlays">
+		<RDF:li resource="chrome://global/content/globalOverlay.xul"/>
+		<RDF:li resource="chrome://browser/content/browser.xul"/>
+		<RDF:li resource="chrome://navigator/content/navigatorOverlay.xul"/>
+		<RDF:li resource="chrome://tabextensions/content/pref/prefDialogOverlay.xul"/>
+	</RDF:Seq>
+
+
+	<RDF:Seq about="chrome://global/content/globalOverlay.xul">
+		<RDF:li>chrome://tabextensions_contextmenu/content/globalOverlay.xul</RDF:li>
+	</RDF:Seq>
+	<RDF:Seq about="chrome://browser/content/browser.xul">
+		<RDF:li>chrome://tabextensions_contextmenu/content/globalOverlay.xul</RDF:li>
+	</RDF:Seq>
+	<RDF:Seq about="chrome://navigator/content/navigatorOverlay.xul">
+		<RDF:li>chrome://tabextensions_contextmenu/content/globalOverlay.xul</RDF:li>
+	</RDF:Seq>
+	<RDF:Seq about="chrome://tabextensions/content/pref/prefDialogOverlay.xul">
+		<RDF:li>chrome://tabextensions_contextmenu/content/prefDialogOverlay.xul</RDF:li>
+	</RDF:Seq>
+
+</RDF:RDF>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE overlay SYSTEM "chrome://tabextensions_contextmenu/locale/">
+
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<treechildren id="tabextensionsChildren">
+	<treeitem insertbefore="tabextensionsMiscItem">
+		<treerow>
+			<treecell label="&tabextensions_contextmenu.title;"
+				url="chrome://tabextensions_contextmenu/content/prefPanel.xul"/> 
+		</treerow>
+	</treeitem>
+</treechildren>
+
+</overlay>

@@ -1,0 +1,13 @@
+[dragover-at="on"] {
+	-moz-outline: thin dotted !important;
+}
+
+[dragover-at="before"] {
+	-moz-border-top-colors: inherit !important;
+	border-top: thin solid !important;
+}
+
+[dragover-at="after"] {
+	-moz-border-bottom-colors: inherit !important;
+	border-bottom: thin solid !important;
+}

@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://communicator/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://tabextensions_contextmenu/content/prefPanel.css" type="text/css"?>
+
+<!DOCTYPE page [
+<!ENTITY % versionDTD SYSTEM "chrome://tabextensions_contextmenu/content/_version.dtd">
+%versionDTD;
+<!ENTITY % tabextensions_contextmenuDTD SYSTEM "chrome://tabextensions_contextmenu/locale/">
+%tabextensions_contextmenuDTD;
+]>
+
+<page
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	orient="vertical"
+	headertitle="&tabextensions_contextmenu.pref.title;"
+	onload="init();">
+
+<script type="application/x-javascript" src="chrome://tabextensions/content/pRDFData.js"/>
+<script type="application/x-javascript" src="chrome://tabextensions/content/globalOverlay.js"/>
+<script type="application/x-javascript" src="chrome://tabextensions/content/pref/exUnregisterer.js"/>
+<script type="application/x-javascript" src="chrome://tabextensions_contextmenu/content/globalOverlay.js"/>
+<script type="application/x-javascript" src="chrome://tabextensions_contextmenu/content/prefPanel.js"/>
+
+<!-- DND -->
+<script type="application/x-javascript" src="chrome://global/content/nsDragAndDrop.js"/>
+<script type="application/x-javascript" src="chrome://global/content/nsTransferable.js"/>
+<script type="application/x-javascript" src="chrome://global/content/nsJSSupportsUtils.js"/>
+<script type="application/x-javascript" src="chrome://global/content/nsJSComponentManager.js"/>
+
+<script type="application/x-javascript"><![CDATA[
+
+var _elementIDs = [
+		'contextMenuOrder'
+	];
+
+function init()
+{
+	window.parent.initPanel(location.href);
+	TSContextMenuPrefService.init();
+}
+
+function loadURI(uri)
+{
+	var b = TabbrowserService.browserWindow;
+	if (b)
+		b.loadURI(uri);
+	else
+		window.open(uri);
+}
+
+var unreg = new exUnregisterer(
+	'chrome://tabextensions_contextmenu/content/contents.rdf',
+	'jar:%chromeFolder%tabextensions_contextmenu.jar!/locale/en-US/tabextensions_contextmenu/contents.rdf',
+	'jar:%chromeFolder%tabextensions_contextmenu.jar!/locale/ja-JP/tabextensions_contextmenu/contents.rdf'
+);
+var STRBUNDLE = Components.classes['@mozilla.org/intl/stringbundle;1'].getService(Components.interfaces.nsIStringBundleService);
+var msg = STRBUNDLE.createBundle('chrome://tabextensions_contextmenu/locale/tabextensions_contextmenu.properties');
+
+function Unregister()
+{
+	if (!confirm(msg.GetStringFromName('uninstall_confirm'))) return;
+
+	if (!confirm(msg.GetStringFromName('uninstall_prefs_confirm'))) {
+		window.unreg.removePrefs('browser.tabs.extensions.contextmenu.order');
+		window.unreg.removePrefs('browser.tabs.extensions.contextmenu.original');
+		window.unreg.removePrefs('browser.tabs.extensions.contextmenu.label');
+	}
+
+	window.unreg.unregister();
+
+	alert(
+		msg.GetStringFromName('uninstall_removefile').replace(/%S/i,
+			window.unreg.getFilePathFromURLSpec(
+				(window.unreg.exists(window.unreg.UChrome+'tabextensions_contextmenu.jar') ? window.unreg.UChrome+'tabextensions_contextmenu.jar' : window.unreg.Chrome+'tabextensions_contextmenu.jar' )
+			)
+		)
+	);
+}
+
+]]></script>
+
+
+
+
+
+<groupbox flex="1">
+	<caption label="&tabextensions_contextmenu.list.caption;"/>
+	<listbox id="contextMenuList"
+		flex="1"
+		ondraggesture="nsDragAndDrop.startDrag(event, TSContextMenuPrefService); event.stopPropagation();"
+		ondragexit="nsDragAndDrop.dragExit(event, TSContextMenuPrefService); event.stopPropagation();"
+		ondragdrop="nsDragAndDrop.drop(event, TSContextMenuPrefService); event.stopPropagation();"
+		ondragover="nsDragAndDrop.dragOver(event, TSContextMenuPrefService); event.stopPropagation();"/>
+	<description flex="1">&tabextensions_contextmenu.list.desc;</description>
+	<box orient="horizontal">
+		<spacer flex="1"/>
+		<button label="&tabextensions_contextmenu.list.reset;"
+			oncommand="TSContextMenuPrefService.reset();"/>
+	</box>
+</groupbox>
+
+
+<textbox id="contextMenuOrder"
+	hidden="true"
+	prefstring="browser.tabs.extensions.contextmenu.order"
+	value=""/>
+
+<keyset>
+	<key keycode="VK_UP" modifiers="accel"
+		oncommand="var service = TSContextMenuPrefService; if (!service.listBox.selectedIndex) { service.listBox.selectedIndex = 0; }; service.moveListItemTo(null, service.listBox.selectedIndex-1)"/>
+	<key keycode="VK_DOWN" modifiers="accel"
+		oncommand="var service = TSContextMenuPrefService; if (!service.listBox.selectedIndex) { service.listBox.selectedIndex = 0; }; service.moveListItemTo(null, service.listBox.selectedIndex+1)"/>
+</keyset>
+
+<spacer/>
+
+<groupbox orient="vertical">
+	<caption label="&tabextensions_contextmenu.about.title;"/>
+	<box orient="horizontal" style="text-align: center;">
+		<spacer flex="1"/>
+		<description flex="1">&tabextensions_contextmenu.about.name_before;&tabextensions_contextmenu.version;&tabextensions_contextmenu.about.name_after;</description>
+		<spacer flex="1"/>
+	</box>
+	<box orient="horizontal">
+		<spacer flex="1"/>
+		<description value="&tabextensions_contextmenu.about.destributed;"
+			onclick="loadURI('http://piro.sakura.ne.jp/');"
+			class="text-link"/>
+		<spacer flex="1"/>
+	</box>
+	<box orient="horizontal">
+		<spacer flex="2"/>
+		<button flex="1"
+			label="&tabextensions_contextmenu.about.uninstall;"
+			oncommand="Unregister();"/>
+		<spacer flex="2"/>
+	</box>
+</groupbox>
+
+</page>

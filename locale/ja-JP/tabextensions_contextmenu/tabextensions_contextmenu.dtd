@@ -1,0 +1,11 @@
+<!ENTITY tabextensions_contextmenu.title      "メニューの並べ替え">
+<!ENTITY tabextensions_contextmenu.pref.title "コンテキストメニューの並べ替え">
+<!ENTITY tabextensions_contextmenu.list.caption "タブのコンテキストメニューの項目">
+<!ENTITY tabextensions_contextmenu.list.desc    "[Ctrl(Command)+↑]で一つ上に、[Ctrl(Command)+↓]で一つ下に項目を移動します">
+<!ENTITY tabextensions_contextmenu.list.reset   "初期状態に戻す">
+
+<!ENTITY tabextensions_contextmenu.about.title       "コンテキストメニューの並べ替えについて">
+<!ENTITY tabextensions_contextmenu.about.name_before "タブブラウザ拡張：コンテキストメニューの並べ替えモジュール Ver.">
+<!ENTITY tabextensions_contextmenu.about.name_after  "">
+<!ENTITY tabextensions_contextmenu.about.destributed "http://piro.sakura.ne.jp/">
+<!ENTITY tabextensions_contextmenu.about.uninstall   "アンインストール">
